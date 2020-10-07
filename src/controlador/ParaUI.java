@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JOptionPane;
 
+import modelo.Libreria;
 import modelo.Libro;
 import utiles.Validaciones;
 import vista.UI;
@@ -44,7 +45,7 @@ public class ParaUI extends UI {
 		});
 		btnBorrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				libreria.eliminarLibro(libreria.obtenerIdSeleccionando(tablaLibros));
+				libreria.eliminarLibro(txtIsbn.getText());
 				libreria.rellenarTabla(tablaLibros);
 				vaciarCampos();
 				JOptionPane.showMessageDialog(null, "Libro borrado");

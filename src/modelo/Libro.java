@@ -30,7 +30,6 @@ public class Libro {
 		return estado;
 	}
 
-
 	public String getISBN() {
 		return ISBN;
 	}
