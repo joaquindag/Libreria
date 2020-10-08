@@ -8,8 +8,9 @@ public class Libro {
 	private float precio;
 	private String formato;
 	private String estado;
+	private int cantidad;
 
-	public Libro(String iSBN, String titulo, String autor, String editorial, float precio,String formato,String estado) {
+	public Libro(String iSBN, String titulo, String autor, String editorial, float precio,String formato,String estado, int cantidad) {
 		super();
 		ISBN = iSBN;
 		this.titulo = titulo;
@@ -18,13 +19,20 @@ public class Libro {
 		this.precio = precio;
 		this.formato=formato;
 		this.estado=estado;
+		this.cantidad=cantidad;
+	}
+	
+	public int getCantidad() {
+		return cantidad;
 	}
 
-	
+	public void setCantidad(int cantidad) {
+		this.cantidad = cantidad;
+	}
+
 	public String getFormato() {
 		return formato;
 	}
-
 
 	public String getEstado() {
 		return estado;

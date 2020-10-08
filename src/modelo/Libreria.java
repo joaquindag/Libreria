@@ -1,6 +1,7 @@
 package modelo;
 
 import java.util.HashMap;
+import java.util.Set;
 
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -13,7 +14,7 @@ public class Libreria {
 	}
 	
 	public void rellenarTabla(JTable tablaLibros) {
-		String nombresColumnas[] = {"ISBN", "TITULO", "EDITORIAL", "AUTOR", "PRECIO"};
+		String nombresColumnas[] = {"ISBN", "TITULO", "EDITORIAL", "AUTOR", "PRECIO", "CANTIDAD"};
 		String[][] filasTabla=new String[this.mapaLibros.size()][nombresColumnas.length];
 		int i = 0;
 		for (HashMap.Entry<String, Libro> entry : mapaLibros.entrySet()) {
@@ -21,7 +22,8 @@ public class Libreria {
 			filasTabla[i][1] = entry.getValue().getTitulo();
 			filasTabla[i][2] = entry.getValue().getEditorial();
 			filasTabla[i][3] = entry.getValue().getAutor();
-			filasTabla[i][4] = String.valueOf(entry.getValue().getPrecio());
+			filasTabla[i][4] = String.valueOf(entry.getValue().getPrecio())+"€";
+			filasTabla[i][5] = String.valueOf(entry.getValue().getCantidad());
 			i++;
 		}
 		DefaultTableModel tablaCompleta = new DefaultTableModel(filasTabla, nombresColumnas);
@@ -39,10 +41,29 @@ public class Libreria {
 		return null;
 	}
 	
-	public void eliminarLibro(String ISBN) {
-		mapaLibros.remove(ISBN);
-}
-
+	public void anadirCantidad(int cantidadNueva,String ISBNSelecionado) {
+		mapaLibros.get(ISBNSelecionado).setCantidad(mapaLibros.get(ISBNSelecionado).getCantidad()+cantidadNueva);
+	}
+	
+	public void eliminarLibro(int index) {
+		String ISBN = obtenerISBNconcreto(index);
+		this.mapaLibros.remove(ISBN);
+	}
+	
+	public void venderCantidad(int cantidadNueva, String ISBNSelecionado) {
+		mapaLibros.get(ISBNSelecionado).setCantidad(mapaLibros.get(ISBNSelecionado).getCantidad()-cantidadNueva);
+	}
+	
+	public String obtenerISBNconcreto(int index) {
+		Set<String> conjunto = this.mapaLibros.keySet();
+		String ISBN = null;
+		if (conjunto.size() != 0) {
+			Object[] array = conjunto.toArray();
+			ISBN = (String) array[index];
+		}
+		return ISBN;
+	}
+	
 	public Libro obtenerLibroDos(String ISBN) {
 		return mapaLibros.get(ISBN);
 	}
@@ -50,4 +71,6 @@ public class Libreria {
 	public boolean comprobarISBNExiste(String iSBNSeleccionado) {
 		return mapaLibros.containsKey(iSBNSeleccionado);
 	}
+
+	
 }
