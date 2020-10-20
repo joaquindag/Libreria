@@ -38,6 +38,34 @@ public class Libro {
 		return estado;
 	}
 
+	public void setISBN(String iSBN) {
+		ISBN = iSBN;
+	}
+
+	public void setTitulo(String titulo) {
+		this.titulo = titulo;
+	}
+
+	public void setAutor(String autor) {
+		this.autor = autor;
+	}
+
+	public void setEditorial(String editorial) {
+		this.editorial = editorial;
+	}
+
+	public void setPrecio(float precio) {
+		this.precio = precio;
+	}
+
+	public void setFormato(String formato) {
+		this.formato = formato;
+	}
+
+	public void setEstado(String estado) {
+		this.estado = estado;
+	}
+
 	public String getISBN() {
 		return ISBN;
 	}

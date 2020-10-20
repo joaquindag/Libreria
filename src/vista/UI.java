@@ -45,13 +45,15 @@ public class UI extends JFrame {
 	protected JSpinner spinnerCantidad;
 	protected JButton btnAnadir;
 	protected JButton btnVender;
+	protected JButton btnModificar;
+	protected JTabbedPane tabbedPane;
 
 	/**
 	 * Create the frame.
 	 */
 	public UI() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1026, 606);
+		setBounds(100, 100, 1099, 606);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -68,7 +70,7 @@ public class UI extends JFrame {
 
 		JPanel panelInferior = new JPanel();
 		FlowLayout flowLayout = (FlowLayout) panelInferior.getLayout();
-		flowLayout.setHgap(25);
+		flowLayout.setHgap(20);
 		contentPane.add(panelInferior, BorderLayout.SOUTH);
 		panelInferior.setBackground(Color.gray);
 
@@ -90,6 +92,11 @@ public class UI extends JFrame {
 		
 		btnVender.setFont(new Font("Tahoma", Font.PLAIN, 25));
 		panelInferior.add(btnVender);
+		
+		btnModificar = new JButton("MODIFICAR");
+		
+		btnModificar.setFont(new Font("Tahoma", Font.PLAIN, 25));
+		panelInferior.add(btnModificar);
 
 		btnConsultar = new JButton("CONSULTAR");
 
@@ -105,7 +112,7 @@ public class UI extends JFrame {
 		btnSalir.setFont(new Font("Tahoma", Font.PLAIN, 25));
 		panelInferior.add(btnSalir);
 
-		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		tabbedPane.setFont(new Font("Tahoma", Font.PLAIN, 22));
 		contentPane.add(tabbedPane, BorderLayout.CENTER);
 		tabbedPane.setBackground(Color.LIGHT_GRAY);
