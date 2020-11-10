@@ -9,19 +9,30 @@ public class Libro {
 	private String formato;
 	private String estado;
 	private int cantidad;
+	private String genero;
 
-	public Libro(String iSBN, String titulo, String autor, String editorial, float precio,String formato,String estado, int cantidad) {
+	public Libro(String iSBN, String titulo, String autor, String editorial, float precio, String formato,
+			String estado, int cantidad, String genero) {
 		super();
 		ISBN = iSBN;
 		this.titulo = titulo;
 		this.autor = autor;
 		this.editorial = editorial;
 		this.precio = precio;
-		this.formato=formato;
-		this.estado=estado;
-		this.cantidad=cantidad;
+		this.formato = formato;
+		this.estado = estado;
+		this.cantidad = cantidad;
+		this.genero = genero;
 	}
-	
+
+	public String getGenero() {
+		return genero;
+	}
+
+	public void setGenero(String genero) {
+		this.genero = genero;
+	}
+
 	public int getCantidad() {
 		return cantidad;
 	}
@@ -89,7 +100,8 @@ public class Libro {
 	@Override
 	public String toString() {
 		return "ISBN: " + ISBN + "\nTitulo: " + titulo + "\nAutor: " + autor + "\nEditorial: " + editorial
-				+ "\nFormato: " + formato + "\nEstado: " + estado + "\nPrecio: " + precio;
+				+ "\nFormato: " + formato + "\nEstado: " + estado + "\nPrecio: " + precio + "\nCantidad: " + cantidad
+				+ "\nGenero: " + genero;
 	}
 
 }

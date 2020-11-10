@@ -2,7 +2,6 @@ package modelo;
 
 import java.util.HashMap;
 import java.util.Set;
-
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
@@ -55,7 +54,11 @@ public class Libreria {
 	}
 
 	public void venderCantidad(int cantidadNueva, String ISBNSelecionado) {
-		mapaLibros.get(ISBNSelecionado).setCantidad(mapaLibros.get(ISBNSelecionado).getCantidad() - cantidadNueva);
+		if(mapaLibros.get(ISBNSelecionado).getCantidad()>cantidadNueva) {
+			mapaLibros.get(ISBNSelecionado).setCantidad(mapaLibros.get(ISBNSelecionado).getCantidad() - cantidadNueva);
+		} else {
+			mapaLibros.get(ISBNSelecionado).setCantidad(0);
+		}
 	}
 
 	public String obtenerISBNconcreto(int index) {

@@ -23,6 +23,10 @@ import javax.swing.JScrollPane;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
+import javax.swing.JMenuBar;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
 
 public class UI extends JFrame {
 
@@ -47,6 +51,16 @@ public class UI extends JFrame {
 	protected JButton btnVender;
 	protected JButton btnModificar;
 	protected JTabbedPane tabbedPane;
+	private JMenuBar menuBar;
+	private JMenu mnMenu;
+	private JMenu mnColor;
+	protected JMenuItem mntmRojo;
+	protected JPanel panelLibro;
+	protected JMenuItem mntmDefault;
+	protected JComboBox<String> comboBoxGenero;
+	
+
+	
 
 	/**
 	 * Create the frame.
@@ -67,6 +81,25 @@ public class UI extends JFrame {
 		JLabel lblLibreriaDeJoaquin = new JLabel("LIBRERIA DE JOAQUIN");
 		lblLibreriaDeJoaquin.setFont(new Font("Tahoma", Font.PLAIN, 32));
 		panelSuperior.add(lblLibreriaDeJoaquin);
+		
+		menuBar = new JMenuBar();
+		panelSuperior.add(menuBar);
+		
+		mnMenu = new JMenu("Ajustes");
+		mnMenu.setFont(new Font("Segoe UI", Font.PLAIN, 26));
+		mnMenu.setIcon(new ImageIcon(UI.class.getResource("/img/ajustes.png")));
+		menuBar.add(mnMenu);
+		
+		mnColor = new JMenu("Color");
+		mnMenu.add(mnColor);
+		
+		mntmRojo = new JMenuItem("Rojo");
+		
+		mnColor.add(mntmRojo);
+		
+		mntmDefault = new JMenuItem("Default");
+		
+		mnColor.add(mntmDefault);
 
 		JPanel panelInferior = new JPanel();
 		FlowLayout flowLayout = (FlowLayout) panelInferior.getLayout();
@@ -113,16 +146,17 @@ public class UI extends JFrame {
 		panelInferior.add(btnSalir);
 
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		tabbedPane.setFont(new Font("Tahoma", Font.PLAIN, 22));
+		tabbedPane.setFont(new Font("Tahoma", Font.PLAIN, 21));
 		contentPane.add(tabbedPane, BorderLayout.CENTER);
 		tabbedPane.setBackground(Color.LIGHT_GRAY);
 
-		JPanel panelLibro = new JPanel();
+		panelLibro = new JPanel();
 		tabbedPane.addTab("Libros", null, panelLibro, null);
 		panelLibro.setBackground(Color.LIGHT_GRAY);
 
 		JLabel lblIsbn = new JLabel("ISBN");
 		lblIsbn.setFont(new Font("Tahoma", Font.PLAIN, 21));
+		
 
 		JLabel lblTitulo = new JLabel("Titulo");
 		lblTitulo.setFont(new Font("Tahoma", Font.PLAIN, 21));
@@ -140,7 +174,7 @@ public class UI extends JFrame {
 		txtIsbn.setFont(new Font("Tahoma", Font.PLAIN, 21));
 		txtIsbn.setColumns(10);
 		txtIsbn.setBackground(Color.red);
-
+		
 		txtTitulo = new JTextField();
 		txtTitulo.setFont(new Font("Tahoma", Font.PLAIN, 21));
 		txtTitulo.setColumns(10);
@@ -184,7 +218,19 @@ public class UI extends JFrame {
 		lblCantidad.setFont(new Font("Tahoma", Font.PLAIN, 21));
 		
 		spinnerCantidad = new JSpinner();
+		spinnerCantidad.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
 		spinnerCantidad.setFont(new Font("Tahoma", Font.PLAIN, 21));
+		JTextField txtspinnerCantidad=((JSpinner.DefaultEditor) spinnerCantidad.getEditor()).getTextField();
+		txtspinnerCantidad.setEditable(false);
+		
+		JLabel lblGnero = new JLabel("G\u00E9nero");
+		lblGnero.setFont(new Font("Tahoma", Font.PLAIN, 21));
+		
+		comboBoxGenero = new JComboBox<String>();
+		comboBoxGenero.setFont(new Font("Tahoma", Font.PLAIN, 21));
+		comboBoxGenero.addItem("");
+		comboBoxGenero.addItem("Aventura");
+		comboBoxGenero.addItem("Misterio");
 		GroupLayout gl_panelLibro = new GroupLayout(panelLibro);
 		gl_panelLibro.setHorizontalGroup(
 			gl_panelLibro.createParallelGroup(Alignment.LEADING)
@@ -202,26 +248,29 @@ public class UI extends JFrame {
 										.addComponent(lblPrecio))
 									.addPreferredGap(ComponentPlacement.UNRELATED)
 									.addGroup(gl_panelLibro.createParallelGroup(Alignment.LEADING)
-										.addComponent(txtPrecio, GroupLayout.DEFAULT_SIZE, 273, Short.MAX_VALUE)
-										.addComponent(txtEditorial, GroupLayout.DEFAULT_SIZE, 273, Short.MAX_VALUE)
-										.addComponent(txtAutor, GroupLayout.DEFAULT_SIZE, 273, Short.MAX_VALUE)
-										.addComponent(txtTitulo, GroupLayout.DEFAULT_SIZE, 273, Short.MAX_VALUE)
-										.addComponent(txtIsbn, GroupLayout.DEFAULT_SIZE, 273, Short.MAX_VALUE)
-										.addComponent(spinnerCantidad, GroupLayout.PREFERRED_SIZE, 104, GroupLayout.PREFERRED_SIZE)))
-								.addGroup(gl_panelLibro.createSequentialGroup()
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(lblFormato)
-									.addGap(18)
-									.addComponent(comboBoxFormato, 0, 273, Short.MAX_VALUE)))
-							.addGap(18)
-							.addComponent(lblEstado))
-						.addComponent(lblCantidad))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_panelLibro.createParallelGroup(Alignment.TRAILING)
-						.addComponent(lblImg, GroupLayout.DEFAULT_SIZE, 319, Short.MAX_VALUE)
+										.addComponent(txtPrecio, GroupLayout.DEFAULT_SIZE, 403, Short.MAX_VALUE)
+										.addComponent(txtEditorial, GroupLayout.DEFAULT_SIZE, 403, Short.MAX_VALUE)
+										.addComponent(txtAutor, GroupLayout.DEFAULT_SIZE, 403, Short.MAX_VALUE)
+										.addComponent(txtTitulo, GroupLayout.DEFAULT_SIZE, 403, Short.MAX_VALUE)
+										.addComponent(txtIsbn, GroupLayout.DEFAULT_SIZE, 403, Short.MAX_VALUE)
+										.addComponent(spinnerCantidad, GroupLayout.PREFERRED_SIZE, 104, GroupLayout.PREFERRED_SIZE))
+									.addGap(80))
+								.addComponent(lblCantidad))
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(lblImg, GroupLayout.DEFAULT_SIZE, 450, Short.MAX_VALUE))
 						.addGroup(gl_panelLibro.createSequentialGroup()
-							.addComponent(comboBoxEstado, 0, 307, Short.MAX_VALUE)
-							.addContainerGap())))
+							.addGroup(gl_panelLibro.createParallelGroup(Alignment.LEADING)
+								.addComponent(lblFormato)
+								.addComponent(lblGnero))
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addGroup(gl_panelLibro.createParallelGroup(Alignment.LEADING)
+								.addComponent(comboBoxGenero, 0, 405, Short.MAX_VALUE)
+								.addComponent(comboBoxFormato, 0, 403, Short.MAX_VALUE))
+							.addGap(18)
+							.addComponent(lblEstado)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(comboBoxEstado, 0, 438, Short.MAX_VALUE)
+							.addGap(16))))
 		);
 		gl_panelLibro.setVerticalGroup(
 			gl_panelLibro.createParallelGroup(Alignment.LEADING)
@@ -253,13 +302,17 @@ public class UI extends JFrame {
 								.addComponent(lblCantidad)
 								.addComponent(spinnerCantidad, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
 						.addComponent(lblImg, GroupLayout.PREFERRED_SIZE, 268, GroupLayout.PREFERRED_SIZE))
-					.addGap(35)
+					.addGap(18)
 					.addGroup(gl_panelLibro.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblFormato)
 						.addComponent(comboBoxFormato, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblEstado)
 						.addComponent(comboBoxEstado, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(81, Short.MAX_VALUE))
+					.addGap(18)
+					.addGroup(gl_panelLibro.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblGnero)
+						.addComponent(comboBoxGenero, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap(59, Short.MAX_VALUE))
 		);
 		panelLibro.setLayout(gl_panelLibro);
 
