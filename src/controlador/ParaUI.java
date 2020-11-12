@@ -31,12 +31,12 @@ public class ParaUI extends UI {
 							txtEditorial.getText(), Float.parseFloat(txtPrecio.getText()),
 							comboBoxFormato.getSelectedItem().toString(), comboBoxEstado.getSelectedItem().toString(),
 							(Integer) spinnerCantidad.getValue(), comboBoxGenero.getSelectedItem().toString());
-					if (Validaciones.validateISBN(txtIsbn.getText()) && Validaciones.validateLetters(txtAutor.getText())
-							&& Validaciones.validateLetters(txtEditorial.getText())
-							&& Validaciones.isNumberFloat(txtPrecio.getText())
-							&& Validaciones.isNtWhite(comboBoxFormato.getSelectedItem().toString())
-							&& Validaciones.isNtWhite(comboBoxEstado.getSelectedItem().toString())
-							&& Validaciones.isNtWhite(comboBoxGenero.getSelectedItem().toString())) {
+					if (Validaciones.validateISBN(txtIsbn.getText(),"ISBN") && Validaciones.validateLetters(txtAutor.getText(),"Autor")
+							&& Validaciones.validateLetters(txtEditorial.getText(),"Editorial")
+							&& Validaciones.isNumberFloat(txtPrecio.getText(), "Precio")
+							&& Validaciones.isNtWhite(comboBoxFormato.getSelectedItem().toString(),"Formato")
+							&& Validaciones.isNtWhite(comboBoxEstado.getSelectedItem().toString(),"Estado")
+							&& Validaciones.isNtWhite(comboBoxGenero.getSelectedItem().toString(),"Genero")) {
 						if (!libreria.comprobarISBNExiste(txtIsbn.getText())) {
 							libreria.añadirLibro(libro);
 							libreria.rellenarTabla(tablaLibros);
@@ -168,14 +168,14 @@ public class ParaUI extends UI {
 				super.keyReleased(e);
 				txtIsbn.setBackground(Color.red);
 				txtIsbn.setForeground(Color.white);
-				if (Validaciones.validateISBN(txtIsbn.getText())) {
+				if (Validaciones.validateISBN(txtIsbn.getText(),"ISBN")) {
 					txtIsbn.setForeground(Color.GREEN);
 					txtIsbn.setBackground(Color.WHITE);
 				}
 			}
 
 			public void keyTyped(KeyEvent e) {
-				if (Validaciones.validateISBN(txtIsbn.getText())) {
+				if (Validaciones.validateISBN(txtIsbn.getText(),"ISBN")) {
 					e.consume();
 				}
 			}
