@@ -1,6 +1,10 @@
 package modelo;
 
-public class Libro {
+import java.io.Serializable;
+
+public class Libro implements Serializable {
+	private static final String RUTA = "libro.dat";
+
 	private String ISBN;
 	private String titulo;
 	private String autor;
@@ -23,6 +27,10 @@ public class Libro {
 		this.estado = estado;
 		this.cantidad = cantidad;
 		this.genero = genero;
+	}
+	
+	public static String getRuta() {
+		return RUTA;
 	}
 
 	public String getGenero() {

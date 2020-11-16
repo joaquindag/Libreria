@@ -1,20 +1,41 @@
 package modelo;
 
+
 import java.util.HashMap;
 import java.util.Set;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-public class Libreria {
-	private HashMap<String, Libro> mapaLibros = new HashMap<String, Libro>();
+import controlador.AlmacenUnico;
 
-	public void añadirLibro(Libro libro) {
-		mapaLibros.put(libro.getISBN(), libro);
+
+public class Libreria implements Estanteriable{
+	private HashMap<String, Libro> mapaLibros;
+	private AlmacenUnico almacen;
+
+	
+
+	public Libreria() {
+		super();
+		this.almacen=new AlmacenUnico("libro.dat");
+		iniciarFichero();
 	}
+
+	private void iniciarFichero() {
+        try {
+            leerEstanteria();
+        } catch (Exception e) {
+        }
+        if (null == this.mapaLibros) {
+            this.mapaLibros = new HashMap<String, Libro>();
+            guardarEstanteria();
+        }
+    }
+
 
 	public void rellenarTabla(JTable tablaLibros) {
 		String nombresColumnas[] = { "ISBN", "TITULO", "EDITORIAL", "AUTOR", "PRECIO", "CANTIDAD" };
-		String[][] filasTabla = new String[this.mapaLibros.size()][nombresColumnas.length];
+		String[][] filasTabla = new String[this.mapaLibros.size()][nombresColumnas.length]; 
 		int i = 0;
 		for (HashMap.Entry<String, Libro> entry : mapaLibros.entrySet()) {
 			filasTabla[i][0] = entry.getKey();
@@ -29,6 +50,8 @@ public class Libreria {
 		tablaLibros.setModel(tablaCompleta);
 	}
 
+	
+
 	public String obtenerIdSeleccionando(JTable tablaLibros) {
 		int i = 0;
 		for (HashMap.Entry<String, Libro> entry : mapaLibros.entrySet()) {
@@ -39,6 +62,7 @@ public class Libreria {
 		}
 		return null;
 	}
+	
 
 	public void anadirCantidad(int cantidadNueva, String ISBNSelecionado) {
 		mapaLibros.get(ISBNSelecionado).setCantidad(mapaLibros.get(ISBNSelecionado).getCantidad() + cantidadNueva);
@@ -71,10 +95,6 @@ public class Libreria {
 		return ISBN;
 	}
 
-	public Libro obtenerLibroDos(String ISBN) {
-		return mapaLibros.get(ISBN);
-	}
-
 	public boolean comprobarISBNExiste(String iSBNSeleccionado) {
 		return mapaLibros.containsKey(iSBNSeleccionado);
 	}
@@ -83,15 +103,39 @@ public class Libreria {
 		return mapaLibros.get(iSBN);
 	}
 
-//	public void modificarLibro(String autor, String editorial, float precio, String titulo, String formato,
-//			String estado, String ISBN) {
-//		mapaLibros.get(ISBN).setAutor(autor);
-//		mapaLibros.get(ISBN).setEditorial(editorial);
-//		mapaLibros.get(ISBN).setPrecio(precio);
-//		mapaLibros.get(ISBN).setTitulo(titulo);
-//		mapaLibros.get(ISBN).setFormato(formato);
-//		mapaLibros.get(ISBN).setEstado(estado);
-//	}
+	@Override
+	public boolean insertarLibro(Libro libro) {
+		leerEstanteria();
+		mapaLibros.put(libro.getISBN(), libro);
+		guardarEstanteria();
+		return true;
+	}
 
+	private boolean guardarEstanteria() {
+		return almacen.almacena(this.mapaLibros);
+		
+	}
+
+	private void leerEstanteria() {
+		this.mapaLibros=(HashMap<String, Libro>) almacen.recuperar();		
+	}
+
+	@Override
+	public boolean borrarLibro(String isbn) {
+		leerEstanteria();
+		mapaLibros.remove(isbn);
+		guardarEstanteria();
+		return true;
+	}
+
+	@Override
+	public Libro buscarLibro(Integer index) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public HashMap<String, Libro> getMapaLibros() {
+		return mapaLibros;
+	}
 
 }

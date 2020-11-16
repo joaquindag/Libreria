@@ -24,6 +24,13 @@ public class Validaciones {
 		}
 		return bandera;
 	}
+	public static boolean validateISBN(String nombre) {
+		boolean bandera=false;
+		if(nombre.length()==13 && isNumber(nombre)) {
+			bandera=true;
+		} 
+		return bandera;
+	}
 	
 	public static boolean isNumber(String nombre,String campo) {
 		boolean bandera=false;
@@ -32,6 +39,13 @@ public class Validaciones {
 		} else {
 			errorField(campo);
 		}
+		return bandera;
+	}
+	public static boolean isNumber(String nombre) {
+		boolean bandera=false;
+		if(Pattern.matches("[0-9]*", nombre)) {
+			bandera=true;
+		} 
 		return bandera;
 	}
 	

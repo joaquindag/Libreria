@@ -15,14 +15,12 @@ import utiles.Validaciones;
 import vista.UI;
 
 public class ParaUI extends UI {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private Libreria libreria = new Libreria();
 
 	public ParaUI() {
 		super();
+		libreria.rellenarTabla(tablaLibros);
 		btnCrear.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
@@ -31,27 +29,19 @@ public class ParaUI extends UI {
 							txtEditorial.getText(), Float.parseFloat(txtPrecio.getText()),
 							comboBoxFormato.getSelectedItem().toString(), comboBoxEstado.getSelectedItem().toString(),
 							(Integer) spinnerCantidad.getValue(), comboBoxGenero.getSelectedItem().toString());
-					if (Validaciones.validateISBN(txtIsbn.getText(),"ISBN") && Validaciones.validateLetters(txtAutor.getText(),"Autor")
-							&& Validaciones.validateLetters(txtEditorial.getText(),"Editorial")
-							&& Validaciones.isNumberFloat(txtPrecio.getText(), "Precio")
-							&& Validaciones.isNtWhite(comboBoxFormato.getSelectedItem().toString(),"Formato")
-							&& Validaciones.isNtWhite(comboBoxEstado.getSelectedItem().toString(),"Estado")
-							&& Validaciones.isNtWhite(comboBoxGenero.getSelectedItem().toString(),"Genero")) {
+					if (ValidarDatos()) {
 						if (!libreria.comprobarISBNExiste(txtIsbn.getText())) {
-							libreria.añadirLibro(libro);
+							libreria.insertarLibro(libro);
 							libreria.rellenarTabla(tablaLibros);
 							vaciarCampos();
 							JOptionPane.showMessageDialog(null, "Libro guardado correctamente");
 						} else {
 							JOptionPane.showMessageDialog(null, "ISBN existente");
 						}
-					} else {
-						JOptionPane.showMessageDialog(null, "Campos erroneos");
-					}
+					} 
 				} catch (Exception e2) {
-					JOptionPane.showMessageDialog(null, "Campos erroneos");
+					decirFallo();
 				}
-
 			}
 		});
 
@@ -71,7 +61,7 @@ public class ParaUI extends UI {
 						JOptionPane.INFORMATION_MESSAGE, null, null, null);
 				if (!txtISBNAComprobar.getText().isEmpty()) {
 					if (libreria.comprobarISBNExiste(txtISBNAComprobar.getText())) {
-						JOptionPane.showMessageDialog(null, libreria.obtenerLibroDos(txtISBNAComprobar.getText()));
+						JOptionPane.showMessageDialog(null, libreria.getLibro(txtISBNAComprobar.getText()));
 					} else {
 						JOptionPane.showMessageDialog(null, "No existe libro con tal ISBN");
 					}
@@ -87,7 +77,7 @@ public class ParaUI extends UI {
 					JOptionPane.showOptionDialog(null, txtModificar, "Introduce cantidad", JOptionPane.CANCEL_OPTION,
 							JOptionPane.INFORMATION_MESSAGE, null, null, null);
 					if (!txtModificar.getText().isEmpty()) {
-						if(Integer.parseInt(txtModificar.getText())>0) {
+						if (Integer.parseInt(txtModificar.getText()) > 0) {
 							libreria.anadirCantidad(Integer.parseInt(txtModificar.getText()), ISBNSeleccionado);
 							libreria.rellenarTabla(tablaLibros);
 							JOptionPane.showMessageDialog(null, "Cantidad agregada");
@@ -99,7 +89,7 @@ public class ParaUI extends UI {
 				} catch (Exception e) {
 					JOptionPane.showMessageDialog(null, "No hay libro seleccionado");
 				}
-				
+
 			}
 		});
 
@@ -119,7 +109,7 @@ public class ParaUI extends UI {
 				} catch (Exception e) {
 					JOptionPane.showMessageDialog(null, "No hay libro seleccionado");
 				}
-				
+
 			}
 		});
 
@@ -150,7 +140,7 @@ public class ParaUI extends UI {
 
 			}
 		});
-		
+
 		mntmRojo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				panelLibro.setBackground(Color.RED);
@@ -168,19 +158,42 @@ public class ParaUI extends UI {
 				super.keyReleased(e);
 				txtIsbn.setBackground(Color.red);
 				txtIsbn.setForeground(Color.white);
-				if (Validaciones.validateISBN(txtIsbn.getText(),"ISBN")) {
+				if (Validaciones.validateISBN(txtIsbn.getText())) {
 					txtIsbn.setForeground(Color.GREEN);
 					txtIsbn.setBackground(Color.WHITE);
 				}
 			}
 
 			public void keyTyped(KeyEvent e) {
-				if (Validaciones.validateISBN(txtIsbn.getText(),"ISBN")) {
+				if (Validaciones.validateISBN(txtIsbn.getText())) {
 					e.consume();
 				}
 			}
 		});
 		;
+	}
+	
+	private boolean ValidarDatos() {
+		if (Validaciones.validateISBN(txtIsbn.getText(), "ISBN")
+				&& Validaciones.validateLetters(txtAutor.getText(), "Autor")
+				&& Validaciones.validateLetters(txtEditorial.getText(), "Editorial")
+				&& Validaciones.isNumberFloat(txtPrecio.getText(), "Precio")
+				&& Validaciones.isNtWhite(comboBoxFormato.getSelectedItem().toString(), "Formato")
+				&& Validaciones.isNtWhite(comboBoxEstado.getSelectedItem().toString(), "Estado")
+				&& Validaciones.isNtWhite(comboBoxGenero.getSelectedItem().toString(), "Genero")) {
+			return true;
+		}
+		return false;
+	}
+
+	private void decirFallo() {
+		Validaciones.validateISBN(txtIsbn.getText(), "ISBN");
+		Validaciones.validateLetters(txtAutor.getText(), "Autor");
+		Validaciones.validateLetters(txtEditorial.getText(), "Editorial");
+		Validaciones.isNumberFloat(txtPrecio.getText(), "Precio");
+		Validaciones.isNtWhite(comboBoxFormato.getSelectedItem().toString(), "Formato");
+		Validaciones.isNtWhite(comboBoxEstado.getSelectedItem().toString(), "Estado");
+		Validaciones.isNtWhite(comboBoxGenero.getSelectedItem().toString(), "Genero");
 	}
 
 	private void registrarLibro(String ISBN) {
@@ -189,8 +202,9 @@ public class ParaUI extends UI {
 		String editorial = txtEditorial.getText();
 		float precio = Float.parseFloat(txtPrecio.getText());
 		Libro libro = new Libro(ISBN, titulo, autor, editorial, precio, (String) comboBoxFormato.getSelectedItem(),
-				(String) comboBoxEstado.getSelectedItem(), (int) spinnerCantidad.getValue(), (String) comboBoxGenero.getSelectedItem());
-		libreria.añadirLibro(libro);
+				(String) comboBoxEstado.getSelectedItem(), (int) spinnerCantidad.getValue(),
+				(String) comboBoxGenero.getSelectedItem());
+		libreria.insertarLibro(libro);
 		libreria.rellenarTabla(tablaLibros);
 		vaciarCampos();
 	}
