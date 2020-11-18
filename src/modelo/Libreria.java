@@ -1,6 +1,5 @@
 package modelo;
 
-
 import java.util.HashMap;
 import java.util.Set;
 import javax.swing.JTable;
@@ -8,34 +7,30 @@ import javax.swing.table.DefaultTableModel;
 
 import controlador.AlmacenUnico;
 
-
-public class Libreria implements Estanteriable{
+public class Libreria implements Estanteriable {
 	private HashMap<String, Libro> mapaLibros;
 	private AlmacenUnico almacen;
 
-	
-
 	public Libreria() {
 		super();
-		this.almacen=new AlmacenUnico("libro.dat");
+		this.almacen = new AlmacenUnico("libro.dat");
 		iniciarFichero();
 	}
 
 	private void iniciarFichero() {
-        try {
-            leerEstanteria();
-        } catch (Exception e) {
-        }
-        if (null == this.mapaLibros) {
-            this.mapaLibros = new HashMap<String, Libro>();
-            guardarEstanteria();
-        }
-    }
-
+		try {
+			leerEstanteria();
+		} catch (Exception e) {
+		}
+		if (null == this.mapaLibros) {
+			this.mapaLibros = new HashMap<String, Libro>();
+			guardarEstanteria();
+		}
+	}
 
 	public void rellenarTabla(JTable tablaLibros) {
 		String nombresColumnas[] = { "ISBN", "TITULO", "EDITORIAL", "AUTOR", "PRECIO", "CANTIDAD" };
-		String[][] filasTabla = new String[this.mapaLibros.size()][nombresColumnas.length]; 
+		String[][] filasTabla = new String[this.mapaLibros.size()][nombresColumnas.length];
 		int i = 0;
 		for (HashMap.Entry<String, Libro> entry : mapaLibros.entrySet()) {
 			filasTabla[i][0] = entry.getKey();
@@ -50,8 +45,6 @@ public class Libreria implements Estanteriable{
 		tablaLibros.setModel(tablaCompleta);
 	}
 
-	
-
 	public String obtenerIdSeleccionando(JTable tablaLibros) {
 		int i = 0;
 		for (HashMap.Entry<String, Libro> entry : mapaLibros.entrySet()) {
@@ -62,7 +55,6 @@ public class Libreria implements Estanteriable{
 		}
 		return null;
 	}
-	
 
 	public void anadirCantidad(int cantidadNueva, String ISBNSelecionado) {
 		mapaLibros.get(ISBNSelecionado).setCantidad(mapaLibros.get(ISBNSelecionado).getCantidad() + cantidadNueva);
@@ -72,13 +64,13 @@ public class Libreria implements Estanteriable{
 		String ISBN = obtenerISBNconcreto(index);
 		this.mapaLibros.remove(ISBN);
 	}
-	
+
 	public void eliminarLibro(String ISBN) {
 		this.mapaLibros.remove(ISBN);
 	}
 
 	public void venderCantidad(int cantidadNueva, String ISBNSelecionado) {
-		if(mapaLibros.get(ISBNSelecionado).getCantidad()>cantidadNueva) {
+		if (mapaLibros.get(ISBNSelecionado).getCantidad() > cantidadNueva) {
 			mapaLibros.get(ISBNSelecionado).setCantidad(mapaLibros.get(ISBNSelecionado).getCantidad() - cantidadNueva);
 		} else {
 			mapaLibros.get(ISBNSelecionado).setCantidad(0);
@@ -113,11 +105,12 @@ public class Libreria implements Estanteriable{
 
 	private boolean guardarEstanteria() {
 		return almacen.almacena(this.mapaLibros);
-		
+
 	}
 
+	@SuppressWarnings("unchecked")
 	private void leerEstanteria() {
-		this.mapaLibros=(HashMap<String, Libro>) almacen.recuperar();		
+		this.mapaLibros = (HashMap<String, Libro>) almacen.recuperar();
 	}
 
 	@Override
@@ -130,7 +123,6 @@ public class Libreria implements Estanteriable{
 
 	@Override
 	public Libro buscarLibro(Integer index) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

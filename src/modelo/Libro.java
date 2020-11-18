@@ -2,6 +2,7 @@ package modelo;
 
 import java.io.Serializable;
 
+@SuppressWarnings("serial")
 public class Libro implements Serializable {
 	private static final String RUTA = "libro.dat";
 
@@ -18,7 +19,7 @@ public class Libro implements Serializable {
 	public Libro(String iSBN, String titulo, String autor, String editorial, float precio, String formato,
 			String estado, int cantidad, String genero) {
 		super();
-		ISBN = iSBN;
+		this.ISBN = iSBN;
 		this.titulo = titulo;
 		this.autor = autor;
 		this.editorial = editorial;
